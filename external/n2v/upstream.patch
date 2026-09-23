@@ -1,0 +1,43 @@
+diff --git a/n2v/internals/N2V_DataWrapper.py b/n2v/internals/N2V_DataWrapper.py
+index b03aeea..c7eb549 100644
+--- a/n2v/internals/N2V_DataWrapper.py
++++ b/n2v/internals/N2V_DataWrapper.py
+@@ -39,7 +39,7 @@ class N2V_DataWrapper(RollingSequence):
+         if self.structN2Vmask is not None:
+             print("StructN2V Mask is: ", self.structN2Vmask)
+ 
+-        num_pix = int(np.product(shape)/100.0 * perc_pix)
++        num_pix = int(np.prod(shape)/100.0 * perc_pix)
+         assert num_pix >= 1, "Number of blind-spot pixels is below one. At least {}% of pixels should be replaced.".format(100.0/np.product(shape))
+         print("{} blind-spots will be generated per training patch of size {}.".format(num_pix, shape))
+ 
+diff --git a/n2v/models/n2v_standard.py b/n2v/models/n2v_standard.py
+index 560cf19..98d2554 100644
+--- a/n2v/models/n2v_standard.py
++++ b/n2v/models/n2v_standard.py
+@@ -259,14 +259,14 @@ class N2V(CARE):
+                                        callbacks=self.callbacks, verbose=1)
+ 
+         if self.basedir is not None:
+-            self.keras_model.save_weights(str(self.logdir / 'weights_last.h5'))
++            self.keras_model.save_weights(str(self.logdir / 'weights_last.weights.h5'))
+ 
+             if self.config.train_checkpoint is not None:
+                 print()
+                 self._find_and_load_weights(self.config.train_checkpoint)
+                 try:
+                     # remove temporary weights
+-                    (self.logdir / 'weights_now.h5').unlink()
++                    (self.logdir / 'weights_now.weights.h5').unlink()
+                 except FileNotFoundError:
+                     pass
+ 
+@@ -302,7 +302,7 @@ class N2V(CARE):
+                     ModelCheckpoint(str(self.logdir / self.config.train_checkpoint), save_best_only=True,
+                                     save_weights_only=True))
+                 self.callbacks.append(
+-                    ModelCheckpoint(str(self.logdir / 'weights_now.h5'), save_best_only=False, save_weights_only=True))
++                    ModelCheckpoint(str(self.logdir / 'weights_now.weights.h5'), save_best_only=False, save_weights_only=True))
+ 
+             if self.config.train_tensorboard:
+                 from tensorflow.keras.callbacks import TensorBoard
