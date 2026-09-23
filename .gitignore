@@ -1,0 +1,31 @@
+# environment / editors
+.DS_Store
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.vscode/
+config/env.sh
+
+# data, weights, and run artefacts (never commit patient data)
+*.npz
+*.npy
+*.pth
+*.h5
+*.pickle
+*.RData
+*.csv
+checkpoints/
+model_weight/
+models/
+splits/
+logs/
+log/
+wandb/
+results/
+test_results/
+eval_results/
+figures_out/
+sf_visualizations*/
+*.log
+*.out
+nohup.out
